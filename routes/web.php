@@ -136,6 +136,14 @@ Route::group(['middleware' => ['auth', 'can:logMan']], function () {
     });
 });
 
+Route::group(['middlewate' => ['auth', 'can:logUudp']], function () {
+   Route::prefix('logistik')->group( function () {
+       Route::get('uudp/buat', 'UudpController@buatUUDP')->name('logUudp.UudpBuat');
+       Route::get('uudp/data', 'UudpController@getUUDP')->name('logUudp.UudpData');
+       Route::get('uudp', 'UudpController@index')->name('logUudp.uudp');
+   });
+});
+
 Route::group(['middleware' => ['auth', 'can:logStaff']], function () {
    Route::prefix('logistik')->group( function () {
        Route::get('staff/{vendor}/unduh/{idPO}/po/{id}/unduh', 'LogStaffController@unduhPO');
