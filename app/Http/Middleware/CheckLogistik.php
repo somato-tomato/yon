@@ -15,7 +15,7 @@ class CheckLogistik
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->role == 'logMan' || $request->user()->role == 'logSup' || $request->user()->role == 'logStaff')
+        if ($request->user() && $request->user()->role == 'logMan' || $request->user()->role == 'logUudp' || $request->user()->role == 'logSup' || $request->user()->role == 'logStaff')
         {
             return $next($request);
         } else {

@@ -37,8 +37,10 @@ class DashboardController extends Controller
         if (Auth::user()->role === "logMan")
         {
             $man = 'Manager Logistik';
-        } else {
+        } elseif (Auth::user()->role === "logStaff") {
             $man = 'Staff Logistik';
+        } else {
+            $man = 'Staff UUDP Logistik';
         }
 
         $approved = DB::table('ppcs')

@@ -48,6 +48,7 @@
                                         <select class="form-control" name="role" id="bagian">
                                             <option value="logMan">Logistik Manajer</option>
                                             <option value="logSup">Logistik Supervisor</option>
+                                            <option value="logUudp">Logistik UUDP</option>
                                             <option value="logStaff">Logistik Staff</option>
                                             <option value="gudSup">Gudang Supervisor</option>
                                             <option value="gudStaff">Gudang Staff</option>

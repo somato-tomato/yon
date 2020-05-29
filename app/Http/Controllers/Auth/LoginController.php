@@ -41,6 +41,7 @@ class LoginController extends Controller
                 break;
             case 'logMan':
             case 'logSup':
+            case 'logUudp':
             case 'logStaff':
                 $this->redirectTo = '/logistik/dashboard';
                 return $this->redirectTo;

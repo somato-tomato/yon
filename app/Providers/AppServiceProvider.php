@@ -39,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->role == 'logSup';
         });
 
+        Gate::define('logUudp', function($user) {
+            return $user->role == 'logUudp';
+        });
+
         Gate::define('logStaff', function($user) {
             return $user->role == 'logStaff';
         });
