@@ -33,12 +33,15 @@
                                     <input type="text" class="form-control" name="kepada" id="kepada" placeholder="Kepada">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="perihal">Perihal</label>
-                                    <input type="number" class="form-control" name="perihal" id="perihal" placeholder="Perihal">
+                                    <label for="jenisBeli">Jenis Beli</label>
+                                    <select class="form-control" id="jenisBeli" name="jenisBeli">
+                                        <option value="Bertahap">Bertahap</option>
+                                        <option value="Lunas">Lunas</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="jenisBeli">Jenis Beli</label>
-                                    <input type="text" class="form-control" name="jenisBeli" id="jenisBeli" placeholder="Jenis Beli">
+                                    <label for="perihal">Perihal</label>
+                                    <input type="text" class="form-control" name="perihal" id="perihal" placeholder="Perihal">
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ppc;
 use App\Uudp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -39,7 +40,7 @@ class UudpController extends Controller
             $search = $request->q;
             $data = DB::table("ppcs")
                 ->select("id","nomorPPMJ")
-                ->where('nomorPPMJ','LIKE',"%$search%")
+                ->where([['nomorPPMJ','LIKE',"%$search%"],['idUUDP', '=', null]])
                 ->get();
         }
 
@@ -53,10 +54,12 @@ class UudpController extends Controller
             'noUUDP' => 'required|unique:uudps',
             'kepada' => 'required',
             'perihal' => 'required',
-            'jenisBeli' => 'required'
+            'jenisBeli' => 'required',
+            'categories.*' => 'required'
         ]);
 
         $form_data = array(
+            'idUser' => Auth::user()->getAuthIdentifier(),
             'tglUUDP' => $request->tglUUDP,
             'noUUDP' => $request->noUUDP,
             'kepada' => $request->kepada,
@@ -65,14 +68,26 @@ class UudpController extends Controller
             'uuid' => (string) Str::uuid()
         );
 
+        Uudp::create($form_data);
+
+        $id = DB::table('uudps')
+            ->select('id')
+            ->where('noUUDP', '=', $request->noUUDP)
+            ->first();
+
         foreach ($request->categories as $key => $value) {
-            $sas = json_encode($value);
+            Ppc::whereId($value)->update(['idUUDP' => $id->id]);
         }
 
-        die();
+        $count = DB::table('ppcs')
+            ->select(DB::raw('count(idUUDP) as lampiran') )
+            ->where('idUUDP', '=', $id->id)
+            ->first();
 
-//        Uudp::create($form_data);
-//
-//        die();
+        DB::table('uudps')
+            ->where('id', '=', $id->id)
+            ->update(['lampiran' => $count->lampiran]);
+
+        return redirect()->route('logUudp.uudp')->with('message', 'UUDP Berhasil dibuat');
     }
 }
