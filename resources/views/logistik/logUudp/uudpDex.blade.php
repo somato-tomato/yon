@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => '',
-    'elementActive' => 'pmt-dex'
+    'elementActive' => 'uudp'
 ])
 
 @section('content')
@@ -23,6 +23,9 @@
                             <div class="col-8">
                                 <h3 class="mb-0">Buat UUDP</h3>
                             </div>
+                            <div class="col-md-4 text-right">
+                                <a class="btn btn-sm btn-info" href="{{ route('logUudp.UudpBuat') }}">Buat UUDP</a>
+                            </div>
                             <br/>
                         </div>
                     </div>
@@ -31,13 +34,9 @@
                         <table class="table table-hover table-flush" style="width: 100%" id="pmt-table">
                             <thead>
                             <tr>
-                                <th scope="col" class="text-center">Tanggal PPMJ</th>
-                                <th scope="col" class="text-center">Nomor PPMJ</th>
-                                <th scope="col" class="text-center">Nomor PO</th>
-                                <th scope="col" class="text-center">Pemesan</th>
-                                <th scope="col" class="text-center">Nama Order</th>
-                                <th scope="col" class="text-center">Vendor Sudah Isi</th>
-                                <th scope="col" class="text-center">Vendor Belum Isi</th>
+                                <th scope="col" class="text-center">Tanggal UUDP</th>
+                                <th scope="col" class="text-center">Nomor UUDP</th>
+                                <th scope="col" class="text-center">Jenis Pembelian</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -58,11 +57,10 @@
                 serverSide: true,
                 ajax: '{{ route('logUudp.UudpData') }}',
                 columns: [
-                    { data: 'nomorPPMJ', name: 'nomorPPMJ' },
-                    { data: 'nomorPO', name: 'nomorPO' },
-                    { data: 'pemesan', name: 'pemesan' },
-                    { data: 'namaOrder', name: 'namaOrder' },
-                    { data: 'sudah', name: 'sudah' }
+                    { data: 'tglUUDP', name: 'tglUUDP' },
+                    { data: 'noUUDP', name: 'noUUDP' },
+                    { data: 'jenisBeli', name: 'jenisBeli' },
+                    { data: 'lihat', name: 'lihat' }
                 ]
             });
         });

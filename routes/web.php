@@ -138,6 +138,8 @@ Route::group(['middleware' => ['auth', 'can:logMan']], function () {
 
 Route::group(['middlewate' => ['auth', 'can:logUudp']], function () {
    Route::prefix('logistik')->group( function () {
+       Route::post('uudp/buat/simpan', 'UudpController@saveUUDP')->name('logUudp.UudpSave');
+       Route::get('uudp/getPPMJ', 'UudpController@loadPPMJ')->name('logUudp.getPPMJ');
        Route::get('uudp/buat', 'UudpController@buatUUDP')->name('logUudp.UudpBuat');
        Route::get('uudp/data', 'UudpController@getUUDP')->name('logUudp.UudpData');
        Route::get('uudp', 'UudpController@index')->name('logUudp.uudp');

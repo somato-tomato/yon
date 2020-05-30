@@ -119,6 +119,21 @@
                 </li>
             @endcan
 
+            @can('logUudp')
+                 <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
+                    <a href="{{ route('logman.dash') }}">
+                            <i class="nc-icon nc-bank"></i>
+                        <p>{{ __('Dashboard') }}</p>
+                    </a>
+                </li>
+                <li class="{{ $elementActive == 'uudp' ? 'active' : '' }}">
+                    <a href="{{route('logUudp.uudp')}}">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>{{ __('UUDP') }}</p>
+                    </a>
+                </li>
+            @endcan
+
             @can('logStaff')
                 <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
                     <a href="{{ route('logman.dash') }}">
