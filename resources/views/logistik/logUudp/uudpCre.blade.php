@@ -53,7 +53,12 @@
                                 <div class="card-body">
                                     <div id="dynamicTable">
                                         <div class="form-group">
-                                            <select class="itemName form-control" name="itemName"></select>
+                                            <select
+                                                name="categories[]"
+                                                multiple
+                                                id="categories"
+                                                class="form-control">
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +99,7 @@
         });
     </script>
     <script type="text/javascript">
-        $('.itemName').select2({
+        $('#categories').select2({
             placeholder: 'Select an item',
             ajax: {
                 url: '{{ route('logUudp.getPPMJ') }}',

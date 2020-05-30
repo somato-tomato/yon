@@ -65,8 +65,14 @@ class UudpController extends Controller
             'uuid' => (string) Str::uuid()
         );
 
-        Uudp::create($form_data);
+        foreach ($request->categories as $key => $value) {
+            $sas = json_encode($value);
+        }
 
         die();
+
+//        Uudp::create($form_data);
+//
+//        die();
     }
 }
