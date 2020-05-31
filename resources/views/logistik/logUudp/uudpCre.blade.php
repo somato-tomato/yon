@@ -86,22 +86,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{ asset('css/select2.full.min.js') }}"></script>
     <script type="text/javascript">
-        var i = 0;
-        $("#add").click(function(){
-            ++i;
-            $("#dynamicTable").append(
-                '<div id="rows">' +
-                '<div class="form-group"> ' +
-                '<select class="itemName form-control" name="itemName"></select>' +
-                '</div>' +
-                '<button type="button" class="btn btn-danger btn-sm remove-div">Hapus PPM / J</button>' +
-                '</div>');
-        });
-        $(document).on('click', '.remove-div', function(){
-            $('#rows').remove();
-        });
-    </script>
-    <script type="text/javascript">
         $('#categories').select2({
             placeholder: 'Select an item',
             ajax: {

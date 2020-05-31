@@ -22,7 +22,7 @@ class UudpController extends Controller
     {
         return Datatables::of(Uudp::query())
             ->addColumn('lihat', function($data) {
-                return "<a class='btn btn-xs btn-success' href='$data->id/ppmjapp'>Lihat</a>";
+                return "<a class='btn btn-xs btn-success' href='/logistik/uudp/$data->uuid/lihat'>Lihat</a>";
             })
             ->rawColumns(['lihat'])->make(true);
     }
@@ -89,5 +89,20 @@ class UudpController extends Controller
             ->update(['lampiran' => $count->lampiran]);
 
         return redirect()->route('logUudp.uudp')->with('message', 'UUDP Berhasil dibuat');
+    }
+
+    public function showUUDP($uuid)
+    {
+        $uudp = DB::table('uudps')
+            ->select('id', 'tglUUDP', 'noUUDP', 'kepada', 'perihal', 'jenisBeli')
+            ->where('uuid', '=', $uuid)
+            ->first();
+        $ppmj = DB::table('ppcs')
+            ->join('uudps', 'ppcs.idUUDP', '=', 'uudps.id')
+            ->select(
+                'ppcs.nomorPPMJ', 'ppcs.tanggalPPMJ', 'ppcs.tanggalPO', 'ppcs.dasarPP', 'ppcs.tanggalPP', 'ppcs.tujuanSurat', 'ppcs.pemesan', 'ppcs.namaOrder', 'ppcs.nomorPO', 'ppcs.jumlahOrder',
+            )->where('ppcs.idUUDP', '=', $uudp->id)->get();
+
+        return view('logistik.logUudp.uudpSho', compact('uudp', 'ppmj'));
     }
 }
