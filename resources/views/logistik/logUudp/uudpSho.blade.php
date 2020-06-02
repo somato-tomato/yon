@@ -42,34 +42,45 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="card">
+                    <div class="card-header row">
+                        <div class="col-md-12 text-right">
+                            <a type="button" class="btn btn-info btn-sm" href="{{ route('logUudp.PpnShow', $uudp->uuid) }}">Ubah PPn</a>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <div class="table">
-                            <table class="table table-responsive table-striped">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th>Nomor PPMJ</th>
                                     <th>Tgl PPMJ</th>
-                                    <th>Tgl PO</th>
                                     <th>Kepada</th>
                                     <th>Pemesan</th>
                                     <th>NomorPO</th>
-                                    <th>Nama Order</th>
-                                    <th>Jumlah Order</th>
+                                    <th>PPn</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach( $ppmj as $p )
                                     <tr>
                                         <td>{{ $p->nomorPPMJ }}</td>
-                                        <td>{{ $p->tanggalPPMJ }}</td>
                                         <td>{{ $p->tanggalPO }}</td>
                                         <td>{{ $p->tujuanSurat }}</td>
                                         <td>{{ $p->pemesan }}</td>
                                         <td>{{ $p->nomorPO }}</td>
-                                        <td>{{ $p->namaOrder }}</td>
-                                        <td>{{ $p->jumlahOrder }}</td>
+                                        <td>
+                                        @if( $p->ppn === null )
+                                            NO
+                                        @elseif( $p->ppn === 5 )
+                                            5%
+                                        @elseif( $p->ppn === 10 )
+                                            10%
+                                        @else
+                                            15%
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -98,8 +98,17 @@ class PpcManController extends Controller
                 'approved' => Carbon::now()
             );
 
+            $add = DB::table('ppcs')
+                ->join('ppcisis', 'ppcs.id', '=', 'ppcisis.idPPC')
+                ->select('ppcisis.namaMaterial', 'ppcisis.satuan', 'ppcisis.jumlahMaterial', 'ppcisis.satuanHarga', 'ppcisis.jumlahHarga')
+                ->where('ppcisis.idPPC', '=', $id)
+                ->get();
+            $jumlah = $add->sum('jumlahHarga');
+
             PpcAcc::create($form_data);
-            Ppc::whereId($id)->update(['cekManager' => 1]);
+            DB::table('ppcs')
+                ->where('id', $id)
+                ->update(['cekManager' => 1, 'jumlahHargaIsi' => $jumlah]);
 
             return redirect()->route('nyapp.dex')->with('message', 'Pengajuan Approved');
         } else {

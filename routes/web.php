@@ -43,9 +43,9 @@ Route::get('/', function () {
 //    return view('test2');
 //});
 //Route::get('/pdf', 'LogManController@testPDF');
-//Route::get('/test', function () {
-//    return view('testi');
-//});
+Route::get('/test', function () {
+    return view('uudptest');
+});
 //Route::get('/testi', function () {
 //    $total = DB::table('ppcisis')
 //        ->select('jumlahHarga')
@@ -54,7 +54,7 @@ Route::get('/', function () {
 //
 //    ddd($total);
 //});
-Route::get('/asd/{id}', 'PpcManController@unduhPPMJ');
+//Route::get('/asd/{id}', 'PpcManController@unduhPPMJ');
 
 // END ROUTE FOR TESTING
 
@@ -136,8 +136,10 @@ Route::group(['middleware' => ['auth', 'can:logMan']], function () {
     });
 });
 
-Route::group(['middlewate' => ['auth', 'can:logUudp']], function () {
+Route::group(['middleware' => ['auth', 'can:logUudp']], function () {
    Route::prefix('logistik')->group( function () {
+       Route::post('uudp/ppn/update', 'UudpController@upPPN')->name('logUudp.PpnUp');
+       Route::get('uudp/{uuid}/ppn', 'UudpController@showPPN')->name('logUudp.PpnShow');
        Route::get('uudp/{uuid}/lihat', 'UudpController@showUUDP')->name('logUudp.UudpShow');
        Route::post('uudp/buat/simpan', 'UudpController@saveUUDP')->name('logUudp.UudpSave');
        Route::get('uudp/getPPMJ', 'UudpController@loadPPMJ')->name('logUudp.getPPMJ');

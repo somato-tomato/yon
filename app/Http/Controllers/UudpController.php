@@ -40,7 +40,7 @@ class UudpController extends Controller
             $search = $request->q;
             $data = DB::table("ppcs")
                 ->select("id","nomorPPMJ")
-                ->where([['nomorPPMJ','LIKE',"%$search%"],['idUUDP', '=', null]])
+                ->where([['nomorPPMJ','LIKE',"%$search%"],['idUUDP', '=', null],['cekManager', '=', 1]])
                 ->get();
         }
 
@@ -94,15 +94,64 @@ class UudpController extends Controller
     public function showUUDP($uuid)
     {
         $uudp = DB::table('uudps')
-            ->select('id', 'tglUUDP', 'noUUDP', 'kepada', 'perihal', 'jenisBeli')
+            ->select('id', 'tglUUDP', 'noUUDP', 'kepada', 'perihal', 'jenisBeli', 'uuid')
             ->where('uuid', '=', $uuid)
             ->first();
         $ppmj = DB::table('ppcs')
             ->join('uudps', 'ppcs.idUUDP', '=', 'uudps.id')
             ->select(
-                'ppcs.nomorPPMJ', 'ppcs.tanggalPPMJ', 'ppcs.tanggalPO', 'ppcs.dasarPP', 'ppcs.tanggalPP', 'ppcs.tujuanSurat', 'ppcs.pemesan', 'ppcs.namaOrder', 'ppcs.nomorPO', 'ppcs.jumlahOrder',
+                'ppcs.nomorPPMJ', 'ppcs.tanggalPO', 'ppcs.tujuanSurat', 'ppcs.pemesan', 'ppcs.namaOrder', 'ppcs.nomorPO', 'ppcs.ppn'
             )->where('ppcs.idUUDP', '=', $uudp->id)->get();
 
         return view('logistik.logUudp.uudpSho', compact('uudp', 'ppmj'));
+    }
+
+    public function showPPN($uuid)
+    {
+        $uudp = DB::table('uudps')
+            ->select('id', 'uuid')
+            ->where('uuid', '=', $uuid)
+            ->first();
+//        ddd($uudp);
+        $ppmj = DB::table('ppcs')
+            ->join('uudps', 'ppcs.idUUDP', '=', 'uudps.id')
+            ->select(
+                'ppcs.id', 'ppcs.nomorPPMJ', 'ppcs.tanggalPPMJ', 'ppcs.tanggalPO', 'ppcs.dasarPP', 'ppcs.tanggalPP', 'ppcs.tujuanSurat', 'ppcs.pemesan', 'ppcs.namaOrder', 'ppcs.nomorPO', 'ppcs.jumlahOrder',
+            )->where('ppcs.idUUDP', '=', $uudp->id)->get();
+
+        return view('logistik.logUudp.uudpPpn', compact('ppmj', 'uudp'));
+    }
+
+    public function upPPN(Request $request)
+    {
+        $ids = $request->id;
+        $ppns = $request->ppn;
+        $uuid = $request->uuid;
+
+//        ddd($uuid);
+
+        foreach ($ids as $index => $id) {
+            if ( $ppns[$index] == 'null') {
+                Ppc::where('id', $id)
+                    ->update(['ppn' => null]);
+            }elseif ( $ppns[$index] == '5') {
+                Ppc::where('id', $id)
+                    ->update(['ppn' => 5]);
+            }elseif ( $ppns[$index] == '10') {
+                Ppc::where('id', $id)
+                    ->update(['ppn' => 10]);
+            }else {
+                Ppc::where('id', $id)
+                    ->update(['ppn' => 15]);
+            }
+        }
+        return redirect()->route('logUudp.UudpShow', $uuid);
+    }
+
+
+
+    public function unduhUUDP($uuid)
+    {
+
     }
 }
