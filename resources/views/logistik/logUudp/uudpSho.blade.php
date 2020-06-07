@@ -87,6 +87,9 @@
                             </table>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        <a type="button" class="btn btn-md btn-primary" href="{{ route('logUudp.unduhUUDP', $uudp->uuid) }}">UNDUH UUDP</a>
+                    </div>
                 </div>
             </div>
         </div>

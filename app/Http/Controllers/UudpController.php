@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Ppc;
 use App\Uudp;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
-use function GuzzleHttp\Psr7\str;
 
 class UudpController extends Controller
 {
@@ -103,6 +103,8 @@ class UudpController extends Controller
                 'ppcs.nomorPPMJ', 'ppcs.tanggalPO', 'ppcs.tujuanSurat', 'ppcs.pemesan', 'ppcs.namaOrder', 'ppcs.nomorPO', 'ppcs.ppn'
             )->where('ppcs.idUUDP', '=', $uudp->id)->get();
 
+//        ddd($uudp);
+
         return view('logistik.logUudp.uudpSho', compact('uudp', 'ppmj'));
     }
 
@@ -152,6 +154,23 @@ class UudpController extends Controller
 
     public function unduhUUDP($uuid)
     {
+        $uudp = DB::table('uudps')
+            ->select('id', 'noUUDP', 'tglUUDP', 'kepada', 'lampiran', 'perihal', 'jenisBeli')
+            ->where('uuid','=', $uuid)
+            ->first();
 
+        $ppmj = DB::table('ppcs')
+            ->join('ppcisis', 'ppcs.id', '=', 'ppcisis.idPPC')
+            ->select('ppcs.nomorPPMJ', 'ppcs.tanggalPPMJ', 'ppcs.pemesan', 'ppcs.jumlahHargaIsi', 'ppcs.ppn', 'ppcisis.namaMaterial')
+            ->where('ppcs.idUUDP', '=', $uudp->id)
+            ->groupBy('ppcs.nomorPPMJ')->get();
+
+        $isi = DB::table('ppcs')
+            ->select(DB::raw('SUM(jumlahHargaIsi) as total'))
+            ->where('idUUDP', '=', $uudp->id)
+            ->first();
+
+        $pdf = PDF::loadView('logistik.logUudp.uudpPDF', compact('uudp', 'ppmj', 'isi'))->setPaper('a4');
+        return $pdf->download($uudp->noUUDP.'.pdf');
     }
 }

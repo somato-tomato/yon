@@ -43,9 +43,9 @@ Route::get('/', function () {
 //    return view('test2');
 //});
 //Route::get('/pdf', 'LogManController@testPDF');
-Route::get('/test', function () {
-    return view('uudptest');
-});
+//Route::get('/test', function () {
+//    return view('uudptest');
+//});
 //Route::get('/testi', function () {
 //    $total = DB::table('ppcisis')
 //        ->select('jumlahHarga')
@@ -146,6 +146,7 @@ Route::group(['middleware' => ['auth', 'can:logUudp']], function () {
        Route::get('uudp/buat', 'UudpController@buatUUDP')->name('logUudp.UudpBuat');
        Route::get('uudp/data', 'UudpController@getUUDP')->name('logUudp.UudpData');
        Route::get('uudp', 'UudpController@index')->name('logUudp.uudp');
+       Route::get('uudp/{uuid}/unduh', 'UudpController@unduhUUDP')->name('logUudp.unduhUUDP');
    });
 });
 
